@@ -68,7 +68,9 @@ const MultipleHome = (props: HomeProps) => {
   });
   const [isActive, setIsActive] = useState(false);
   const [endDate, setEndDate] = useState<Date>();
-  const [itemsRemaining, setItemsRemaining] = useState<number>();
+  const [itemsRemainingStandard, setItemsRemainingStandard] =
+    useState<number>();
+  const [itemsRemainingPremium, setItemsRemainingPremium] = useState<number>();
   const [isWhitelistUser, setIsWhitelistUser] = useState(false);
   const [isPresale, setIsPresale] = useState(false);
   const [isValidBalance, setIsValidBalance] = useState(false);
@@ -211,13 +213,13 @@ const MultipleHome = (props: HomeProps) => {
               cndy.state.itemsAvailable
             );
             if (cndy.state.itemsRedeemed < limit) {
-              setItemsRemaining(limit - cndy.state.itemsRedeemed);
+              setItemsRemainingStandard(limit - cndy.state.itemsRedeemed);
             } else {
-              setItemsRemaining(0);
+              setItemsRemainingStandard(0);
               cndy.state.isSoldOut = true;
             }
           } else {
-            setItemsRemaining(cndy.state.itemsRemaining);
+            setItemsRemainingStandard(cndy.state.itemsRemaining);
           }
 
           if (cndy.state.isSoldOut) {
@@ -419,13 +421,13 @@ const MultipleHome = (props: HomeProps) => {
               cndy.state.itemsAvailable
             );
             if (cndy.state.itemsRedeemed < limit) {
-              setItemsRemaining(limit - cndy.state.itemsRedeemed);
+              setItemsRemainingPremium(limit - cndy.state.itemsRedeemed);
             } else {
-              setItemsRemaining(0);
+              setItemsRemainingPremium(0);
               cndy.state.isSoldOut = true;
             }
           } else {
-            setItemsRemaining(cndy.state.itemsRemaining);
+            setItemsRemainingPremium(cndy.state.itemsRemaining);
           }
 
           if (cndy.state.isSoldOut) {
@@ -578,8 +580,8 @@ const MultipleHome = (props: HomeProps) => {
         if (status && !status.err && metadataStatus) {
           // manual update since the refresh might not detect
           // the change immediately
-          const remaining = itemsRemaining! - 1;
-          setItemsRemaining(remaining);
+          const remaining = itemsRemainingStandard! - 1;
+          setItemsRemainingStandard(remaining);
           setIsActive((standardCandyMachine.state.isActive = remaining > 0));
           standardCandyMachine.state.isSoldOut = remaining === 0;
           setSetupTxn(undefined);
@@ -726,8 +728,8 @@ const MultipleHome = (props: HomeProps) => {
         if (status && !status.err && metadataStatus) {
           // manual update since the refresh might not detect
           // the change immediately
-          const remaining = itemsRemaining! - 1;
-          setItemsRemaining(remaining);
+          const remaining = itemsRemainingPremium! - 1;
+          setItemsRemainingPremium(remaining);
           setIsActive((premiumCandyMachine.state.isActive = remaining > 0));
           premiumCandyMachine.state.isSoldOut = remaining === 0;
           setSetupTxn(undefined);
@@ -882,14 +884,14 @@ const MultipleHome = (props: HomeProps) => {
                         fontWeight: "bold",
                       }}
                     >
-                      {`${itemsRemaining}`}
+                      {`${itemsRemainingStandard}`}
                     </Typography>
                   </Grid>
                   <Grid item xs={4}>
                     <Typography variant="body2" color="textSecondary">
                       {isWhitelistUser && discountPrice
-                        ? "Discount Price"
-                        : "Price"}
+                        ? "Standard Discount Price"
+                        : "Standard Price"}
                     </Typography>
                     <Typography
                       variant="h6"
@@ -956,6 +958,87 @@ const MultipleHome = (props: HomeProps) => {
                   </Grid>
                 </Grid>
               )}
+
+              {premiumCandyMachine && (
+                // Remaining , Price and Live info
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="center"
+                  wrap="nowrap"
+                >
+                  <Grid item xs={3}>
+                    <Typography variant="body2" color="textSecondary">
+                      Remaining
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      color="textPrimary"
+                      style={{
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {`${itemsRemainingPremium}`}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography variant="body2" color="textSecondary">
+                      {isWhitelistUser && discountPrice
+                        ? "Premium Discount Price"
+                        : "Premium Price"}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      color="textPrimary"
+                      style={{ fontWeight: "bold" }}
+                    >
+                      {isWhitelistUser && discountPrice
+                        ? `◎ ${formatNumber.asNumber(discountPrice)}`
+                        : `◎ ${formatNumber.asNumber(
+                            premiumCandyMachine.state.price
+                          )}`}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={5}>
+                    {isActive && endDate && Date.now() < endDate.getTime() ? (
+                      <>
+                        <MintCountdown
+                          key="endSettings"
+                          date={getCountdownDate(premiumCandyMachine)}
+                          style={{ justifyContent: "flex-end" }}
+                          status="COMPLETED"
+                          onComplete={toggleStandardMintButton}
+                        />
+                        <Typography
+                          variant="caption"
+                          align="center"
+                          display="block"
+                          style={{ fontWeight: "bold" }}
+                        >
+                          TO END OF MINT
+                        </Typography>
+                      </>
+                    ) : (
+                      <>
+                        {isPresale &&
+                          premiumCandyMachine.state.goLiveDate &&
+                          premiumCandyMachine.state.goLiveDate.toNumber() >
+                            new Date().getTime() / 1000 && (
+                            <Typography
+                              variant="caption"
+                              align="center"
+                              display="block"
+                              style={{ fontWeight: "bold" }}
+                            >
+                              UNTIL PUBLIC MINT
+                            </Typography>
+                          )}
+                      </>
+                    )}
+                  </Grid>
+                </Grid>
+              )}
+
               {/* Standard Mint Container */}
               <MintContainer>
                 {standardCandyMachine?.state.isActive &&
