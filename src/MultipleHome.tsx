@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import * as anchor from "@project-serum/anchor";
 
 import styled from "styled-components";
-import { Container, Snackbar } from "@mui/material";
+import { Box, Container, Snackbar } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Alert from "@mui/lab/Alert";
 import Grid from "@mui/material/Grid";
@@ -31,6 +31,7 @@ import { MintButton } from "./MintButton";
 import { GatewayProvider } from "@civic/solana-gateway-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { SolanaMobileWalletAdapterWalletName } from "@solana-mobile/wallet-adapter-mobile";
+import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 
 const ConnectButton = styled(WalletDialogButton)`
   width: 100%;
@@ -1069,19 +1070,51 @@ const MultipleHome = (props: HomeProps) => {
                       }
                       isStandard={true}
                     />
+                    <Box justifyContent="center">
+                      <CrossmintPayButton
+                        clientId="8c1023cc-7c03-4fe7-aeb0-c9645c5be497"
+                        mintConfig={{ type: "candy-machine" }}
+                        environment="staging"
+                        paymentMethod="fiat"
+                        style={{ width: "100%" }}
+                      />
+                      {/* <CrossmintPayButton
+                        clientId="8c1023cc-7c03-4fe7-aeb0-c9645c5be497"
+                        mintConfig={{ type: "candy-machine" }}
+                        environment="staging"
+                        paymentMethod="ETH"
+                        style={{ width: "100%" }}
+                      /> */}
+                    </Box>
                   </GatewayProvider>
                 ) : (
-                  <MintButton
-                    candyMachine={standardCandyMachine}
-                    isMinting={isUserMinting}
-                    setIsMinting={(val) => setIsUserMinting(val)}
-                    onMint={onStandardMint}
-                    isActive={
-                      isActive ||
-                      (isPresale && isWhitelistUser && isValidBalance)
-                    }
-                    isStandard={true}
-                  />
+                  <Box gap={4} justifyContent="center">
+                    <MintButton
+                      candyMachine={standardCandyMachine}
+                      isMinting={isUserMinting}
+                      setIsMinting={(val) => setIsUserMinting(val)}
+                      onMint={onStandardMint}
+                      isActive={
+                        isActive ||
+                        (isPresale && isWhitelistUser && isValidBalance)
+                      }
+                      isStandard={true}
+                    />
+                    <CrossmintPayButton
+                      clientId="8c1023cc-7c03-4fe7-aeb0-c9645c5be497"
+                      mintConfig={{ type: "candy-machine" }}
+                      environment="staging"
+                      paymentMethod="fiat"
+                      style={{ width: "100%" }}
+                    />
+                    {/* <CrossmintPayButton
+                      clientId="8c1023cc-7c03-4fe7-aeb0-c9645c5be497"
+                      mintConfig={{ type: "candy-machine" }}
+                      environment="staging"
+                      paymentMethod="ETH"
+                      style={{ width: "100%" }}
+                    /> */}
+                  </Box>
                 )}
               </MintContainer>
 
@@ -1115,178 +1148,56 @@ const MultipleHome = (props: HomeProps) => {
                       }
                       isStandard={false}
                     />
+                    <Box justifyContent="center">
+                      <CrossmintPayButton
+                        clientId="d6a98c90-2467-425a-af52-51f3c0a4a2b1"
+                        mintConfig={{ type: "candy-machine" }}
+                        environment="staging"
+                        paymentMethod="fiat"
+                        style={{ width: "100%" }}
+                      />
+                      {/* <CrossmintPayButton
+                        clientId="d6a98c90-2467-425a-af52-51f3c0a4a2b1"
+                        mintConfig={{ type: "candy-machine" }}
+                        environment="staging"
+                        paymentMethod="ETH"
+                        style={{ width: "100%" }}
+                      /> */}
+                    </Box>
                   </GatewayProvider>
                 ) : (
-                  <MintButton
-                    candyMachine={premiumCandyMachine}
-                    isMinting={isUserMinting}
-                    setIsMinting={(val) => setIsUserMinting(val)}
-                    onMint={onPremiumMint}
-                    isActive={
-                      isActive ||
-                      (isPresale && isWhitelistUser && isValidBalance)
-                    }
-                    isStandard={false}
-                  />
+                  <Box justifyContent="center">
+                    <MintButton
+                      candyMachine={premiumCandyMachine}
+                      isMinting={isUserMinting}
+                      setIsMinting={(val) => setIsUserMinting(val)}
+                      onMint={onPremiumMint}
+                      isActive={
+                        isActive ||
+                        (isPresale && isWhitelistUser && isValidBalance)
+                      }
+                      isStandard={false}
+                    />
+                    <CrossmintPayButton
+                      clientId="d6a98c90-2467-425a-af52-51f3c0a4a2b1"
+                      mintConfig={{ type: "candy-machine" }}
+                      environment="staging"
+                      paymentMethod="fiat"
+                      style={{ width: "100%" }}
+                    />
+                    {/* <CrossmintPayButton
+                      clientId="d6a98c90-2467-425a-af52-51f3c0a4a2b1"
+                      mintConfig={{ type: "candy-machine" }}
+                      environment="staging"
+                      paymentMethod="ETH"
+                      style={{ width: "100%" }}
+                    /> */}
+                  </Box>
                 )}
               </MintContainer>
             </>
           )}
 
-          {/* TODO: PREMIUM MINT BUTTON */}
-          {/* Premium Mint */}
-          {/* {!connected ? (
-            <ConnectButton
-              onClick={(e) => {
-                if (
-                  wallet?.adapter.name === SolanaMobileWalletAdapterWalletName
-                ) {
-                  connect();
-                  e.preventDefault();
-                }
-              }}
-            >
-              Connect Wallet
-            </ConnectButton>
-          ) : (
-            <>
-              {candyMachine && (
-                // Remaining , Price and Live info
-                <Grid
-                  container
-                  direction="row"
-                  justifyContent="center"
-                  wrap="nowrap"
-                >
-                  <Grid item xs={3}>
-                    <Typography variant="body2" color="textSecondary">
-                      Remaining
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      color="textPrimary"
-                      style={{
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {`${itemsRemaining}`}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={4}>
-                    <Typography variant="body2" color="textSecondary">
-                      {isWhitelistUser && discountPrice
-                        ? "Discount Price"
-                        : "Price"}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      color="textPrimary"
-                      style={{ fontWeight: "bold" }}
-                    >
-                      {isWhitelistUser && discountPrice
-                        ? `◎ ${formatNumber.asNumber(discountPrice)}`
-                        : `◎ ${formatNumber.asNumber(
-                            candyMachine.state.price
-                          )}`}
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={5}>
-                    {isActive && endDate && Date.now() < endDate.getTime() ? (
-                      <>
-                        <MintCountdown
-                          key="endSettings"
-                          date={getCountdownDate(candyMachine)}
-                          style={{ justifyContent: "flex-end" }}
-                          status="COMPLETED"
-                          onComplete={toggleMintButton}
-                        />
-                        <Typography
-                          variant="caption"
-                          align="center"
-                          display="block"
-                          style={{ fontWeight: "bold" }}
-                        >
-                          TO END OF MINT
-                        </Typography>
-                      </>
-                    ) : (
-                      <>
-                        <MintCountdown
-                          key="goLive"
-                          date={getCountdownDate(candyMachine)}
-                          style={{ justifyContent: "flex-end" }}
-                          status={
-                            candyMachine?.state?.isSoldOut ||
-                            (endDate && Date.now() > endDate.getTime())
-                              ? "COMPLETED"
-                              : isPresale
-                              ? "PRESALE"
-                              : "LIVE"
-                          }
-                          onComplete={toggleMintButton}
-                        />
-                        {isPresale &&
-                          candyMachine.state.goLiveDate &&
-                          candyMachine.state.goLiveDate.toNumber() >
-                            new Date().getTime() / 1000 && (
-                            <Typography
-                              variant="caption"
-                              align="center"
-                              display="block"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              UNTIL PUBLIC MINT
-                            </Typography>
-                          )}
-                      </>
-                    )}
-                  </Grid>
-                </Grid>
-              )}
-              <MintContainer>
-                {candyMachine?.state.isActive &&
-                candyMachine?.state.gatekeeper &&
-                publicKey &&
-                anchorWallet?.signTransaction ? (
-                  <GatewayProvider
-                    wallet={{
-                      publicKey:
-                        publicKey || new PublicKey(CANDY_MACHINE_PROGRAM),
-                      signTransaction: anchorWallet.signTransaction,
-                    }}
-                    gatekeeperNetwork={
-                      candyMachine?.state?.gatekeeper?.gatekeeperNetwork
-                    }
-                    clusterUrl={rpcUrl}
-                    cluster={cluster}
-                    options={{ autoShowModal: false }}
-                  >
-                    <MintButton
-                      candyMachine={candyMachine}
-                      isMinting={isUserMinting}
-                      setIsMinting={(val) => setIsUserMinting(val)}
-                      onMint={onMint}
-                      isActive={
-                        isActive ||
-                        (isPresale && isWhitelistUser && isValidBalance)
-                      }
-                    />
-                  </GatewayProvider>
-                ) : (
-                  <MintButton
-                    candyMachine={candyMachine}
-                    isMinting={isUserMinting}
-                    setIsMinting={(val) => setIsUserMinting(val)}
-                    onMint={onMint}
-                    isActive={
-                      isActive ||
-                      (isPresale && isWhitelistUser && isValidBalance)
-                    }
-                  />
-                )}
-              </MintContainer>
-            </>
-          )} */}
           <Typography
             variant="caption"
             align="center"
