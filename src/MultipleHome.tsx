@@ -45,6 +45,8 @@ const ConnectButton = styled(WalletDialogButton)`
 `;
 
 const MintContainer = styled.div``; // add your owns styles here
+const crossMintPremiumKey: string = (process.env.REACT_APP_CROSSMINT_ID_PREMIUM as string);
+const crossMintStandardKey: string = (process.env.REACT_APP_CROSSMINT_ID_STANDARD as string);
 
 export interface HomeProps {
   candyMachineIdStandard?: anchor.web3.PublicKey;
@@ -1072,7 +1074,8 @@ const MultipleHome = (props: HomeProps) => {
                     />
                     <Box justifyContent="center">
                       <CrossmintPayButton
-                        clientId="8c1023cc-7c03-4fe7-aeb0-c9645c5be497"
+                        // clientId="8c1023cc-7c03-4fe7-aeb0-c9645c5be497"
+                        clientId={crossMintStandardKey}
                         mintConfig={{ type: "candy-machine" }}
                         environment="staging"
                         paymentMethod="fiat"
@@ -1101,7 +1104,8 @@ const MultipleHome = (props: HomeProps) => {
                       isStandard={true}
                     />
                     <CrossmintPayButton
-                      clientId="8c1023cc-7c03-4fe7-aeb0-c9645c5be497"
+                      // clientId="8c1023cc-7c03-4fe7-aeb0-c9645c5be497"
+                      clientId={crossMintStandardKey}
                       mintConfig={{ type: "candy-machine" }}
                       environment="staging"
                       paymentMethod="fiat"
@@ -1150,7 +1154,8 @@ const MultipleHome = (props: HomeProps) => {
                     />
                     <Box justifyContent="center">
                       <CrossmintPayButton
-                        clientId="d6a98c90-2467-425a-af52-51f3c0a4a2b1"
+                        // clientId="d6a98c90-2467-425a-af52-51f3c0a4a2b1"
+                        clientId={crossMintPremiumKey}
                         mintConfig={{ type: "candy-machine" }}
                         environment="staging"
                         paymentMethod="fiat"
@@ -1179,7 +1184,8 @@ const MultipleHome = (props: HomeProps) => {
                       isStandard={false}
                     />
                     <CrossmintPayButton
-                      clientId="d6a98c90-2467-425a-af52-51f3c0a4a2b1"
+                      // clientId="d6a98c90-2467-425a-af52-51f3c0a4a2b1"
+                      clientId={crossMintPremiumKey}
                       mintConfig={{ type: "candy-machine" }}
                       environment="staging"
                       paymentMethod="fiat"
