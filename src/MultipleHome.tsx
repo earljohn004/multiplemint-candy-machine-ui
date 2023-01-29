@@ -943,19 +943,6 @@ const MultipleHome = (props: HomeProps) => {
                           }
                           onComplete={toggleStandardMintButton}
                         />
-                        {isPresale &&
-                          standardCandyMachine.state.goLiveDate &&
-                          standardCandyMachine.state.goLiveDate.toNumber() >
-                            new Date().getTime() / 1000 && (
-                            <Typography
-                              variant="caption"
-                              align="center"
-                              display="block"
-                              style={{ fontWeight: "bold" }}
-                            >
-                              UNTIL PUBLIC MINT
-                            </Typography>
-                          )}
                       </>
                     )}
                   </Grid>
