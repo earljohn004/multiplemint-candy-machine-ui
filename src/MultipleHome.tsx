@@ -1064,7 +1064,7 @@ const MultipleHome = (props: HomeProps) => {
                         // clientId="8c1023cc-7c03-4fe7-aeb0-c9645c5be497"
                         clientId={crossMintStandardKey}
                         mintConfig={{ type: "candy-machine" }}
-                        environment="staging"
+                        environment="production"
                         paymentMethod="fiat"
                         style={{ width: "100%" }}
                       />
@@ -1094,7 +1094,7 @@ const MultipleHome = (props: HomeProps) => {
                       // clientId="8c1023cc-7c03-4fe7-aeb0-c9645c5be497"
                       clientId={crossMintStandardKey}
                       mintConfig={{ type: "candy-machine" }}
-                      environment="staging"
+                      environment="production"
                       paymentMethod="fiat"
                       style={{ width: "100%" }}
                     />
@@ -1144,7 +1144,7 @@ const MultipleHome = (props: HomeProps) => {
                         // clientId="d6a98c90-2467-425a-af52-51f3c0a4a2b1"
                         clientId={crossMintPremiumKey}
                         mintConfig={{ type: "candy-machine" }}
-                        environment="staging"
+                        environment="production"
                         paymentMethod="fiat"
                         style={{ width: "100%" }}
                       />
@@ -1174,7 +1174,7 @@ const MultipleHome = (props: HomeProps) => {
                       // clientId="d6a98c90-2467-425a-af52-51f3c0a4a2b1"
                       clientId={crossMintPremiumKey}
                       mintConfig={{ type: "candy-machine" }}
-                      environment="staging"
+                      environment="production"
                       paymentMethod="fiat"
                       style={{ width: "100%" }}
                     />
